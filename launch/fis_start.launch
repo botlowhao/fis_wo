@@ -1,3 +1,0 @@
-<launch>
-    <node name="fis_wo_node" pkg="fis_wo" type="fis_wo.py" output="screen" />
-</launch>

@@ -7,7 +7,15 @@ import skfuzzy as fuzz
 import matplotlib.pyplot as plt
 from skfuzzy import control as ctrl
 from vwio_eskf.msg import WOFISData, Q1Data
+
+import sys
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
+
 from custom_mf import custom_mf2, custom_mf3
+
 
 def data_preprocessing(file_path):
     data = pd.read_csv(file_path)

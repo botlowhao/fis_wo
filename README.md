@@ -1,2 +1,2 @@
 # fis_wo
-ANFIS-Python For Visual-Wheel-Inertial Odometry ESKF Muti-Sensor Fusion
+Fuzzy Inference System for Wheel Odometry System
