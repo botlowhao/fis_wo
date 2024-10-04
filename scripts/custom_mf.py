@@ -78,3 +78,7 @@ def custom_mf3(x, a, b):
     y[idx] = 0
 
     return y
+
+
+def Inverted_gbellmf(x, a, b, c):
+    return 1 - (1. / (1. + np.abs((x - c) / a) ** (2 * b)))
