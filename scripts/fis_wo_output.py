@@ -11,15 +11,15 @@ from matplotlib import rcParams
 
 config = {
     "font.family": 'serif',          # 使用 serif 字体
-    "font.size": 18,                 # 字体大小14，相当于小四
+    "font.size": 28,                 # 字体大小14，相当于小四
     "mathtext.fontset": 'stix',      # 数学字体设置为 stix，接近 Times New Roman
     'axes.unicode_minus': False,     # 处理负号的显示
     'axes.labelweight': 'bold',      # 坐标轴标签加粗
-    'lines.linewidth': 2.5,            # 线条加粗为 2
-    'axes.titlesize': 24,            # 标题字体大小
+    'lines.linewidth': 3,            # 线条加粗为 2
+    'axes.titlesize': 32,            # 标题字体大小
     'axes.titleweight': 'bold',      # 标题加粗
-    'axes.labelsize': 22,            # 坐标轴标签字体大小
-    'legend.fontsize': 16            # 图例字体大小
+    'axes.labelsize': 27,            # 坐标轴标签字体大小
+    'legend.fontsize': 28            # 图例字体大小
 }
 rcParams.update(config)
 
@@ -116,25 +116,25 @@ def create_fis(rho_stats):
     # omega.view() 只能用红蓝
     plt.plot(x_omega, omega['A4'].mf, 'r', label='A4')
     plt.plot(x_omega, omega['A5'].mf, 'b', label='A5')
-    plt.title(r"WO-FIS Input Membership Function $\omega$")
-    plt.xlabel(r"$\omega$")
+    plt.title(r"WO-FIS Input Membership Function $\omega_e^z$")
+    plt.xlabel(r"$\omega_e^z$")
     plt.ylabel("Membership Value")
     plt.legend()
     plt.show()
 
     # v_x.view() 只能用蓝色
     plt.plot(x_vx, v_x['A6'].mf, 'b', label='A6')
-    plt.title(r"WO-FIS Input Membership Function $v_x$")
-    plt.xlabel(r"$v_x$")
+    plt.title(r"WO-FIS Input Membership Function $v_e^x$")
+    plt.xlabel(r"$v_e^x$")
     plt.ylabel("Membership Value")
     plt.legend()
     plt.show()
 
     # Q1.view() 只能用红蓝
-    plt.plot(x_Q1, Q1['High Variance'].mf, 'r', label='High Variance')
-    plt.plot(x_Q1, Q1['Low Variance'].mf, 'b', label='Low Variance')
-    plt.title(r"WO-FIS Output Membership Function $Q_p$")
-    plt.xlabel(r"$Q_p$")
+    plt.plot(x_Q1, Q1['High Variance'].mf, 'r', label='$W_{\mathrm{H}}$')
+    plt.plot(x_Q1, Q1['Low Variance'].mf, 'b', label='$W_{\mathrm{L}}$')
+    plt.title(r"WO-FIS Output Membership Function $\hat{\sigma}_{\mathbf{p}}^{2}$")
+    plt.xlabel(r"$\hat{\sigma}_{\mathbf{p}}^{2}$")
     plt.ylabel("Membership Value")
     plt.legend()
     plt.show()
@@ -148,8 +148,8 @@ def create_fis(rho_stats):
     # rule6 = ctrl.Rule(antecedent=(rho['A3'] & omega['A6']), consequent=Q1['Low Variance'], label='R6')
     rule6 = ctrl.Rule(antecedent=(rho['A2'] & omega['A4']), consequent=Q1['Low Variance'], label='R6')
     # rule8 = ctrl.Rule(antecedent=(rho['A3'] & omega['A5']), consequent=Q1['High Variance'], label='R8')
-    rule7 = ctrl.Rule(antecedent=(omega['A4'] & v_x['A6']), consequent=Q1['High Variance'], label='R7')
-    rule8 = ctrl.Rule(antecedent=(omega['A5'] & v_x['A6']), consequent=Q1['High Variance'], label='R7')
+    rule7 = ctrl.Rule(antecedent=(omega['A4'] & v_x['A6']), consequent=Q1['Low Variance'], label='R7')
+    rule8 = ctrl.Rule(antecedent=(omega['A5'] & v_x['A6']), consequent=Q1['High Variance'], label='R8')
 
 
     Q1_Calculate_ctrl = ctrl.ControlSystem([rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8])
@@ -161,7 +161,7 @@ def test_fis(Q1_Calculate):
     # Test for output Q1
     Q1_Calculate.input['p'] = 5.0000
     Q1_Calculate.input['w'] = 0.2000
-    Q1_Calculate.input['v_x'] = 0.05
+    Q1_Calculate.input['v_x'] = 0.03
     Q1_Calculate.compute()
     return Q1_Calculate.output['Q1']
 
